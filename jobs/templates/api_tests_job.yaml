@@ -16,6 +16,6 @@
             remote: false
     pipeline-scm:
       scm:
-        - api_tests_scm
-      script-path: jenkins/api_tests.groovy
+        - api-tests-scm
+      script-path: ./pipelines/api_tests.groovy
 #      script-path: burlaka_jenkins/pipelines/api_tests.groovy

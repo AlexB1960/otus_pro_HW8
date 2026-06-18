@@ -1,6 +1,6 @@
 - job-template:
-    name: 'ui_tests'
-    desciption: "<h3 style='color: red;'>ui tests runner</h3>"
+    name: 'appium_tests'
+    desciption: "<h3 style='color: red;'>appium tests runner</h3>"
     project-type: pipeline
     concurrent: true
     parameters:
@@ -16,6 +16,6 @@
             remote: false
     pipeline-scm:
       scm:
-        - ui-tests-scm
-      script-path: ./pipelines/ui_tests.groovy
-#      script-path: burlaka_jenkins/pipelines/ui_tests.groovy
+        - appium-tests-scm
+      script-path: ./pipelines/appium_tests.groovy
+#      script-path: burlaka_jenkins/pipelines/api_tests.groovy
