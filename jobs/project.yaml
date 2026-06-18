@@ -6,3 +6,6 @@
     jobs:
 #      - '{name} deploy'
       - 'jobs_uploader'
+      - 'ui_tests'
+      - 'api_tests'
+      - 'appium_tests'
