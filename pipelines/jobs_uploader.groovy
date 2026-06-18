@@ -6,7 +6,7 @@ timeout(60) {  //время сборки в секундах
      stage("Create config file") { //создание конфиг-файла
        //забираем креды, созданные нами в Jenkins-Credentials. они хранятся только в пределах этих(внизу) фигурных скобок
        withCredentials([usernamePassword(credentialsId: 'jenkins', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASSWORD')]) {
-         writeFile file: './config.ini', test: """[jenkins]
+         writeFile file: './config.ini', text: """[jenkins]
            url=${env.JENKINS_URL}
            user=${JENKINS_USER}
            password=${JENKINS_PASSWORD}
