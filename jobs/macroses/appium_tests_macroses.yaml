@@ -1,0 +1,11 @@
+---
+
+- scm:
+    name: appium-tests-scm
+    scm:
+    - git:
+        url: ssh://git@github.com/AlexB1960/otus_pro_HW7.git
+        credentials-id: jenkins-git
+        branches:
+        - FETCH_HEAD
+#        refspec: ${REFSPEC}

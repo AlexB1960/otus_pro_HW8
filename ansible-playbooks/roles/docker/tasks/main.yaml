@@ -1,0 +1,77 @@
+---
+- name: Delete old docker keys
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/keyrings/docker.gpg
+    - /etc/apt/sources.list.d/docker.list
+    - /etc/apt/keyrings/docker.asc
+  tags: prepare
+
+- name: Update cache
+  apt:
+    update_cache: true
+  tags: prepare
+
+- name: Install package via apt
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ca-certificates
+    - curl
+    - gnupg
+    - software-properties-common
+  tags: prepare
+
+- name: Add gpg docker key
+  get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+  tags: prepare
+
+- name: Add repo of docker
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+  tags: prepare
+
+- name: Update cache
+  apt:
+    update_cache: true
+  tags: prepare
+
+- name: Install docker packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+  tags: install_docker
+
+- name: Start/enable docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  tags: install_docker
+
+- name: Add current user to docker group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes
+  tags: install_docker
+
+- name: Change permissions on /var/run/docker.sock
+  file:
+    path: /var/run/docker.sock
+    state: file
+    mode: '0666'
+  tags: install_docker

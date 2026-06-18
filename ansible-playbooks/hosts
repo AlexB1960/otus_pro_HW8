@@ -1,0 +1,5 @@
+[selenoid_host]
+localhost ansible_connection=local
+
+[java_basic]
+127.0.0.1 ansible_connection=local

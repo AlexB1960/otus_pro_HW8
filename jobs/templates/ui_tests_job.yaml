@@ -1,0 +1,21 @@
+- job-template:
+    name: 'ui_tests'
+    desciption: "<h3 style='color: red;'>ui tests runner</h3>"
+    project-type: pipeline
+    concurrent: true
+    parameters:
+      - string:
+          name: REFSPEC
+          description: ""
+          default: main
+      - text:
+          name: CONFIG
+          default: |
+            browser: chrome
+            base_url: https://otus.ru
+            remote: false
+    pipeline-scm:
+      scm:
+        - ui_tests_scm
+      script-path: jenkins/ui_tests.groovy
+#      script-path: burlaka_jenkins/pipelines/ui_tests.groovy

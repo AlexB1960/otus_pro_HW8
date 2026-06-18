@@ -1,0 +1,13 @@
+FROM jenkins/agent
+
+USER root
+
+RUN mkdir -p /root/jenkins
+WORKDIR /root/jenkins
+
+RUN apt update
+RUN apt install pipx python3-venv -y
+RUN pipx install ansible
+RUN pipx ensurepath
+
+ENV PATH=/root/.local/bin/:$PATH

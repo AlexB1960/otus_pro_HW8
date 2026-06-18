@@ -1,0 +1,18 @@
+{
+  "chrome": {
+    "default": "{{ default_chrome_version }}",
+    "versions": {
+       {%- for chrome in chrome_browsers -%}
+            {{ chrome }}
+       {% endfor %}
+    }
+  },
+  "firefox": {
+    "default": "{{ default_firefox_version }}",
+    "versions": {
+       {%- for firefox in firefox_browsers -%}
+            {{ firefox }}
+       {% endfor %}
+    }
+  }
+}

@@ -1,0 +1,11 @@
+---
+
+- scm:
+    name: api-tests-scm
+    scm:
+    - git:
+        url: ssh://git@github.com/AlexB1960/otus_Pro_Homework_3.git
+        credentials-id: jenkins-git
+        branches:
+        - FETCH_HEAD
+#        refspec: ${REFSPEC}

@@ -1,0 +1,61 @@
+---
+- name: Create selenoid workdir
+  file:
+    path: "{{ workdir }}"
+    state: directory
+  tags: selenoid
+
+- name: Create selenoid subdirectory ggr
+  file:
+    path: "{{ workdir }}/ggr/quota"
+    state: directory
+  tags: selenoid
+
+- name: Create selenoid subdirectory nginx
+  file:
+    path: "{{ workdir }}/nginx"
+    state: directory
+  tags: selenoid
+
+- name: Create subdirectory selenoid for browsers.json
+  file:
+    path: "{{ workdir }}/selenoid"
+    state: directory
+  tags: selenoid
+
+- name: Render browser.json for selenoid-1 and selenoid-2
+  template:
+    src: "./templates/browsers.json.j2"
+    dest: "{{ workdir }}/selenoid/browsers.json"
+  vars:
+    default_chrome_version: "119.0"
+    chrome_browsers:
+      - "\"119.0\": {\"image\": \"selenoid/chrome:119.0\",\"port\": \"4444\",\"path\": \"/\"},"
+      - "\"118.0\": {\"image\": \"selenoid/chrome:118.0\",\"port\": \"4444\",\"path\": \"/\"}"
+    default_firefox_version: "118.0"
+    firefox_browsers:
+      - "\"118.0\": {\"image\": \"selenoid/firefox:118.0\",\"port\": \"4444\",\"path\": \"/wd/hub/\"},"
+      - "\"117.0\": {\"image\": \"selenoid/firefox:117.0\",\"port\": \"4444\",\"path\": \"/wd/hub/\"}"
+  tags: selenoid
+
+- name: Pull docker images for browsers
+  community.docker.docker_image_pull:
+    name: "selenoid/{{ item }}"
+    pull: "not_present"
+  loop:
+    - chrome:119.0
+    - chrome:118.0
+    - firefox:118.0
+    - firefox:117.0
+  tags: selenoid
+
+- name: Render ggr
+  template:
+    src: "./templates/ggr/quota/selenoid.xml.j2"
+    dest: "{{ workdir }}/ggr/quota/selenoid.xml"
+  vars:
+    chrome_version1: "119.0"
+    chrome_version2: "118.0"
+    firefox_version1: "118.0"
+    firefox_version2: "117.0"
+  tags: selenoid

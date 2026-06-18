@@ -1,0 +1,35 @@
+- name: Deploy selenoid
+  hosts: "{{ host | default('selenoid_host') }}"
+  become: yes
+  remote_user: root
+  vars:
+    project_dir: /root/burlaka_selenoid
+
+  roles:
+#    - docker
+    - selenoid
+
+  tasks:
+    - name: Copy configuration and compose files
+      template:
+        src: "templates/{{ item }}.j2"
+        dest: "{{ project_dir }}/{{ item }}"
+      loop:
+        - nginx/selenoid.conf
+        - docker-compose.yml
+
+    - name: Launch Selenoid Infrastructure with docker-compose
+      community.docker.docker_compose_v2:
+        project_src: "{{ project_dir }}"
+        state: present
+
+#    - name: Run ui-tests
+#      docker_container:
+#        command: "-Dbrowser={{ browser_name }}"
+#        detach: false
+#        auto_remove: false
+#        pull: true
+#        image: "localhost:5005/tests_ui:1.0"
+#        image: "tests_ui:1.0"
+#        network_mode: host
+#        name: ui_tests

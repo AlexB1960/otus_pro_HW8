@@ -1,0 +1,30 @@
+<qa:browsers xmlns:qa="urn:config.gridrouter.qatools.ru">
+  <browser name="chrome" defaultVersion="{{ chrome_version1 }}">
+    <version number="{{ chrome_version1 }}">
+      <region name="1">
+        <host name="selenoid-1" port="4444" count="5" vnc="vnc://selenoid-1:5900"/>
+        <host name="selenoid-2" port="4444" count="5" vnc="vnc://selenoid-2:5900"/>
+      </region>
+    </version>
+    <version number="{{ chrome_version2 }}">
+      <region name="1">
+        <host name="selenoid-1" port="4444" count="5" vnc="vnc://selenoid-1:5900"/>
+        <host name="selenoid-2" port="4444" count="5" vnc="vnc://selenoid-2:5900"/>
+      </region>
+    </version>
+  </browser>
+  <browser name="firefox" defaultVersion="{{ firefox_version1 }}">
+    <version number="{{ firefox_version1 }}">
+      <region name="1">
+        <host name="selenoid-1" port="4444" count="5" vnc="vnc://selenoid-1:5900"/>
+        <host name="selenoid-2" port="4444" count="5" vnc="vnc://selenoid-2:5900"/>
+      </region>
+    </version>
+    <version number="{{ firefox_version2 }}">
+      <region name="1">
+        <host name="selenoid-1" port="4444" count="5" vnc="vnc://selenoid-1:5900"/>
+        <host name="selenoid-2" port="4444" count="5" vnc="vnc://selenoid-2:5900"/>
+      </region>
+    </version>
+  </browser>
+</qa:browsers>

@@ -1,0 +1,8 @@
+---
+
+- project:
+    name: 'jenkins jobs'
+    job-description: '<h4 style="color:#999696;">Deploy jenkins jobs</h4>'
+    jobs:
+#      - '{name} deploy'
+      - 'jobs_uploader'

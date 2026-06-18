@@ -1,0 +1,127 @@
+services:
+  selenoid-1:
+    container_name: selenoid-1
+    image: aerokube/selenoid:1.11.3
+    environment:
+      - DOCKER_API_VERSION=1.45
+    networks:
+      - selenoid-net1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./selenoid:/etc/selenoid:ro
+    command:
+      - "-container-network=selenoid-net1"
+      - "-limit=5"
+
+  selenoid-2:
+    container_name: selenoid-2
+    image: aerokube/selenoid:1.11.3
+    environment:
+      - DOCKER_API_VERSION=1.45
+    networks:
+      - selenoid-net2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./selenoid:/etc/selenoid:ro
+    command:
+      - "-container-network=selenoid-net2"
+      - "-limit=5"
+
+  ggr:
+    container_name: ggr
+    depends_on:
+      - jenkins
+      - selenoid-1
+      - selenoid-2
+    image: aerokube/ggr:1.7.2
+    networks:
+      - selenoid-net1
+      - selenoid-net2
+    volumes:
+      - ./ggr:/etc/grid-router:ro
+    command:
+      - "-guests-allowed"
+      - "-guests-quota=selenoid"
+      - "-verbose"
+      - "-quotaDir=/etc/grid-router/quota"
+
+  ggr-ui:
+    container_name: ggr-ui
+    depends_on:
+      - ggr
+    image: aerokube/ggr-ui:1.2.0
+    networks:
+      - selenoid-net1
+      - selenoid-net2
+    volumes:
+      - ./ggr/quota:/etc/grid-router/quota:ro
+
+  selenoid-ui:
+    container_name: selenoid-ui
+    depends_on:
+      - ggr-ui
+    image: aerokube/selenoid-ui:1.10.11
+    networks:
+      - selenoid-net1
+    command:
+      - "--selenoid-uri"
+      - "http://ggr-ui:8888"
+
+  registry:
+    image: registry:3.0.0
+    restart: always
+    networks:
+      - selenoid-net1
+    container_name: registry
+    hostname: registry
+    depends_on:
+      - selenoid-1
+      - selenoid-2
+    volumes:
+      - ./registry:/var/lib/registry
+    ports:
+      - 5005:5005
+    environment:
+      - REGISTRY_HTTP_ADDR=0.0.0.0:5005
+
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:jdk21
+    restart: always
+    networks:
+      - selenoid-net1
+    hostname: jenkins
+    depends_on:
+      - registry
+    user: root
+    environment:
+      - JAVA_OPTS="-Dhudson.model.DownloadService.noSugnatureCheck=true"
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - JENKINS_OPTS="--prefix=/my_jenkins"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    depends_on:
+      - selenoid-ui
+      - jenkins
+      - registry
+    image: nginx:1.29.3
+#    privileged: true
+    restart: always
+    networks:
+      - selenoid-net1
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+      - /etc/localtime:/etc/localtime:ro
+
+networks:
+  selenoid-net1:
+    name: selenoid-net1
+  selenoid-net2:
+    name: selenoid-net2
