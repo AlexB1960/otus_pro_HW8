@@ -1,16 +1,21 @@
-- job:
-    name: api_tests
+- job-template:
+    name: 'api_tests'
     desciption: "<h3 style='color: red;'>api tests runner</h3>"
     project-type: pipeline
     concurrent: true
     parameters:
-    parameters:
-      - text:
-          name: "REFSPEC"
+      - string:
+          name: REFSPEC
+          description: ""
           default: main
-          description: "Branch"
+#      - text:
+#          name: CONFIG
+#          default: |
+#            browser: chrome
+#            base_url: https://otus.ru
+#            remote: false
     pipeline-scm:
       scm:
         - api-tests-scm
       script-path: ./pipelines/api_tests.groovy
-#      script-path: burlaka_jenkins/pipelines/api_tests.groovy
+#      script-path: jenkins/api_tests.groovy

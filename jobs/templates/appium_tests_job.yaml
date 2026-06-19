@@ -18,4 +18,4 @@
       scm:
         - appium-tests-scm
       script-path: ./pipelines/appium_tests.groovy
-#      script-path: burlaka_jenkins/pipelines/api_tests.groovy
+#      script-path: jenkins/api_tests.groovy

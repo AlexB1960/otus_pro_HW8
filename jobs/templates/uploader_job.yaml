@@ -11,5 +11,4 @@
       scm:
         - git-jenkins-jobs
 #      script-path: jenkins/jobs_uploader.groovy
-#      script-path: burlaka_jenkins/pipelines/jobs_uploader.groovy
       script-path: ./pipelines/jobs_uploader.groovy

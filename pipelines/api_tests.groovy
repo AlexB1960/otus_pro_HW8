@@ -1,9 +1,9 @@
 
-timeout(60) {  //время сборки в секундах
-   node("ansible") { //значение поля Labels из настроек в Docker Agent templates
-     currentBuild.description = "Running api-tests on Jenkins" //заголовок у каждой джобы
+timeout(120) {
+   node("ansible") {
+     currentBuild.description = "Running api-tests on Jenkins"
 
-     stage("Running api-tests on Jenkins") { //выполняем запуск апи-тестов
+     stage("Running api-tests on Jenkins") {
         sh "docker run tests_api:1.0"
      }
    }

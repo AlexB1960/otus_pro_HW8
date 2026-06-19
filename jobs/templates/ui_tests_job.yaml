@@ -18,4 +18,4 @@
       scm:
         - ui-tests-scm
       script-path: ./pipelines/ui_tests.groovy
-#      script-path: burlaka_jenkins/pipelines/ui_tests.groovy
+#      script-path: jenkins/ui_tests.groovy
