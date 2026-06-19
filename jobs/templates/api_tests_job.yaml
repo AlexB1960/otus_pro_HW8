@@ -4,16 +4,11 @@
     project-type: pipeline
     concurrent: true
     parameters:
-      - string:
-          name: "REFSPEC"
-          description: ""
-          default: main
+    parameters:
       - text:
-          name: CONFIG
-          default: |
-            browser: chrome
-            base_url: https://otus.ru
-            remote: false
+          name: "REFSPEC"
+          default: main
+          description: "Branch"
     pipeline-scm:
       scm:
         - api-tests-scm
