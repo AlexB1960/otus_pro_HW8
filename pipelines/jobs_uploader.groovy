@@ -21,7 +21,7 @@ timeout(60) {  //время сборки в секундах
      }
 
      stage("Upload jobs on Jenkins") { //выполняем накатку джоб в дженкинс
-        sh "jenkins-jobs --conf ./config.ini --flush-cache update ./jobs/" // ./jobs - это путь, где у нас лежат джобы
+        sh "jenkins-jobs --conf ./config.ini --flush-cache update ./jobs" // ./jobs - это путь, где у нас лежат джобы
      }
    }
 }
