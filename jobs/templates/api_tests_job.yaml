@@ -1,11 +1,11 @@
-- job-template:
-    name: 'api_tests'
+- job:
+    name: api_tests
     desciption: "<h3 style='color: red;'>api tests runner</h3>"
     project-type: pipeline
     concurrent: true
     parameters:
       - string:
-          name: REFSPEC
+          name: "REFSPEC"
           description: ""
           default: main
       - text:
