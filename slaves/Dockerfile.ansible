@@ -8,6 +8,7 @@ WORKDIR /root/jenkins
 RUN apt update
 RUN apt install pipx python3-venv -y
 RUN pipx install ansible
+RUN pipx install jenkins-job-builder
 RUN pipx ensurepath
 
 ENV PATH=/root/.local/bin/:$PATH
