@@ -4,7 +4,7 @@ timeout(120) {
      currentBuild.description = "Running api-tests on Jenkins"
 
      stage("Running api-tests on Jenkins") {
-        sh "docker run tests_api:1.0"
+        sh "docker run --rm tests_api:1.0"
      }
    }
 }
