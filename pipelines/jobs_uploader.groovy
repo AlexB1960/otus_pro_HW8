@@ -17,6 +17,8 @@ timeout(60) {
         [job_builder]
         recursive=True
         keep_description=True
+        ignore_cache=True
+        update=all
 """
        }
      }

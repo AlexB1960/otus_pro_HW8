@@ -7,7 +7,9 @@
     filter-queue: true
     job-name:
       - jobs_uploader
+      - api_tests
       - ui_tests
+      - appium_tests
     columns:
       - status
       - job

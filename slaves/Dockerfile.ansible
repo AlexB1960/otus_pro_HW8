@@ -8,8 +8,12 @@ WORKDIR /root/jenkins
 RUN apt update
 RUN apt install pipx python3-venv -y
 RUN pipx install ansible
-sudo apt install docker-ce docker-ce-cli
-RUN apt install python3-setuptools
-RUN pipx install jenkins-job-builder
+RUN apt install docker.io -y
+RUN apt install python3-pip python3-dev -y
+RUN python3 -m venv /venv
+RUN /venv/bin/pip3 install --no-cache-dir stevedore jenkins-job-builder
+RUN /venv/bin/pip3 install setuptools==69.5.1
+#RUN pip3 install setuptools==69.5.1
+#RUN pipx install jenkins-job-builder
 RUN pipx ensurepath
-ENV PATH=/root/.local/bin/:$PATH
+ENV PATH=/root/.local/bin/:/venv/bin:$PATH
