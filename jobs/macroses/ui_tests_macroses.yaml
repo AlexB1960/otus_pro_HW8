@@ -8,4 +8,5 @@
         credentials-id: jenkins-git
         branches:
         - FETCH_HEAD
+        refspec: main
 #        refspec: ${REFSPEC}
