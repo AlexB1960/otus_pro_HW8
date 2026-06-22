@@ -23,13 +23,5 @@
         project_src: "{{ project_dir }}"
         state: present
 
-#    - name: Run ui-tests
-#      docker_container:
-#        command: "-Dbrowser={{ browser_name }}"
-#        detach: false
-#        auto_remove: false
-#        pull: true
-#        image: "localhost:5005/tests_ui:1.0"
-#        image: "tests_ui:1.0"
-#        network_mode: host
-#        name: ui_tests
+    - name: Run Jobs Uploader
+      shell: cd .. ; jenkins-jobs --conf ./uploader_config.ini update ./jobs/
