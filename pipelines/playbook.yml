@@ -1,0 +1,39 @@
+- name: Run tests
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Get current working directory
+      ansible.builtin.command: pwd
+      register: pwd_result
+
+    - name: Ensure Allure results directory exists
+      ansible.builtin.file:
+        path: "{{ pwd_result.stdout }}/allure-results"
+        state: directory #убеждаемся, что папка есть
+
+    - name: Ensure JUnit results directory exists
+      ansible.builtin.file:
+        path: "{{ pwd_result.stdout }}/surefire-reports"
+        state: directory
+
+    - name: Run tests
+      ignore_errors: true #если какие-то тесты упали, то сама плейбука не упадет
+      community.docker.docker_container: #запускаем в контейнере тесты из образа, который собрали в джобе image
+        name: "otus-allure-{{ profile }}" #имя контейнера(название проекта) + (ui/api/appium)
+        image: "otus-allure:{{ branch }}" #имя того образа, который создали в Dockerfile
+        state: started #ждем, пока контейнер стартует
+        network_mode: host #контейнер разворачивается в хостовой сети
+        mounts:
+          - type: bind
+            source: "/var/run/docker.sock"
+            target: "/var/run/docker.sock"
+          - type: bind #после того, как убедились, что папка есть, ее нужно забиндить
+            source: "/var/jenkins_home{{ pwd_result.stdout }}/allure-results"
+            target: /otus-allure/target/allure-results
+          - type: bind #биндим папку для отчета для МАТТЕРМОСТа
+            source: "/var/jenkins_home{{ pwd_result.stdout }}/surefire-reports"
+            target: /otus-allure/target/surefire-reports
+        env:
+          PROFILE: "{{ profile }}" #передаем параметр PROFILE из Dockerfile
+        detach: false #будем ждать окончания наших тестов (иначе, контейнер запустится и сразу плейбука завершится)
