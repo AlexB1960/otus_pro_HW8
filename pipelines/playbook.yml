@@ -20,8 +20,10 @@
     - name: Run tests
       ignore_errors: true #если какие-то тесты упали, то сама плейбука не упадет
       community.docker.docker_container: #запускаем в контейнере тесты из образа, который собрали в джобе image
-        name: "otus-allure-{{ profile }}" #имя контейнера(название проекта) + (ui/api/appium)
-        image: "otus-allure:{{ branch }}" #имя того образа, который создали в Dockerfile
+#        name: "otus-allure-{{ profile }}" #имя контейнера(название проекта) + (ui/api/appium)
+        name: "api_tests-{{ profile }}"
+#        image: "otus-allure:{{ branch }}" #имя того образа, который создали в Dockerfile
+        image: "api_tests:1.1"
         state: started #ждем, пока контейнер стартует
         network_mode: host #контейнер разворачивается в хостовой сети
         mounts:

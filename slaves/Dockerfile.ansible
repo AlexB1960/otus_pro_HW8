@@ -2,8 +2,8 @@ FROM jenkins/agent
 
 USER root
 
-RUN mkdir -p /workspace
-WORKDIR /workspace
+RUN mkdir -p /ansible
+WORKDIR /ansible
 
 RUN apt update
 RUN apt install pipx python3-venv -y
