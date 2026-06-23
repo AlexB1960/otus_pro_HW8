@@ -24,4 +24,7 @@
         state: present
 
     - name: Run Jobs Uploader
-      shell: cd .. ; jenkins-jobs --conf ./uploader_config.ini update ./jobs/
+      args:
+        chdir: ..
+      shell: jenkins-jobs --conf ./uploader_config.ini update ./jobs/
+#      shell: cd .. ; jenkins-jobs --conf ./uploader_config.ini update ./jobs/
