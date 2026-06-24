@@ -25,7 +25,10 @@ timeout(120) {
                  checkout scm  //стягиваем проект
              }
              stage("Running api-tests") {
+                 sh "pwd"
+                 sh "ls -la"
                  ansiblePlaybook playbook: "playbook.yml", //плейбука, которая запускает тесты (и разворачивает инфраструктуру?)
+                 //        installation: "Ansible",
                          extraVars: [
                                  branch : "${env.REFSPEC}", //передаем BRANCH в плейбуку ветку, из которой запускаем
                                  profile: "${params.PROFILE}" //передаем в плейбуку, какие именно тесты запускаем (ui/api/appium)
@@ -41,8 +44,8 @@ timeout(120) {
                          onlyIfSuccessful: true //только если джоба прошла успешно (не упала), но тестам разрешено падать
                  allure(
                          results: [[path: "allure-results"]], //результаты искать в папке allure-results
-                         disable: false,
-                         reportBuildPolicy: "ALWAYS" //всегда включаем и всегла собираем
+                         disabled: false,
+                         reportBuildPolicy: "ALWAYS" //всегда включаем и всегда собираем
                  )
              }
          } finally {
