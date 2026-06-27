@@ -8,9 +8,11 @@
           name: REFSPEC
           description: ""
           default: main
-#      - text:
-#          name: CONFIG
-#          default: |
+      - text:
+          name: YAML_CONFIG
+          description: "PROFILE: api | ui | appium"
+          default: |
+            PROFILE: ui
 #            browser: chrome
 #            base_url: https://otus.ru
 #            remote: false
