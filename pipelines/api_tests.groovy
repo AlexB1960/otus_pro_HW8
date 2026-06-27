@@ -25,8 +25,8 @@ timeout(120) {
                  checkout scm  //стягиваем проект
              }
              stage("Running api-tests") {
-                 sh "pwd"
-                 sh "ls -la"
+                 //sh "pwd"
+                 //sh "ls -la"
                  ansiblePlaybook playbook: "playbook.yml", //плейбука, которая запускает тесты (и разворачивает инфраструктуру?)
                  //        installation: "Ansible",
                          extraVars: [

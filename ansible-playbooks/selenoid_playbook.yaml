@@ -23,8 +23,9 @@
         project_src: "{{ project_dir }}"
         state: present
 
+    - name: Pause for 20 seconds
+      ansible.builtin.pause:
+        seconds: 20
+
     - name: Run Jobs Uploader
-      args:
-        chdir: ..
-      shell: jenkins-jobs --conf ./uploader_config.ini update ./jobs/
-#      shell: cd .. ; jenkins-jobs --conf ./uploader_config.ini update ./jobs/
+      shell: cd .. && jenkins-jobs --conf ./uploader_config.ini update ./jobs/

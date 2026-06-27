@@ -8,12 +8,12 @@
           name: REFSPEC
           description: ""
           default: main
-      - text:
-          name: CONFIG
-          default: |
-            browser: chrome
-            base_url: https://otus.ru
-            remote: false
+#      - text:
+#          name: CONFIG
+#          default: |
+#            browser: chrome
+#            base_url: https://otus.ru
+#            remote: false
     pipeline-scm:
       scm:
         - appium-tests-scm
